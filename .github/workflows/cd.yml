@@ -17,6 +17,9 @@ jobs:
         git config user.name "moxbot"
         git config user.email "bot@mox.sh"
 
+    - name: Setup credentials to access repositories
+      run: git config --global url.https://${{ secrets.CR_TOKEN }}@github.com/.insteadOf https://github.com/
+
     - name: 01-test-schedule
       run: touch $(date +%F-%H%M%S)
 
