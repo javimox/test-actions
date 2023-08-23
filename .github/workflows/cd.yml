@@ -9,12 +9,13 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: 01-test-schedule
-      run: |
-        touch $(date +%F-%H%M%S)
+      run: touch $(date +%F-%H%M%S)
 
     - name: Create Pull Request
       id: cpr
       uses: moxbot/create-pull-request@v3
+      env:
+        CR_TOKEN: "${{ secrets.CR_TOKEN }}"
       with:
         token: ${{ secrets.CR_TOKEN }}
         commit-message: "[Release] update Charts with the latest stable App versions"
