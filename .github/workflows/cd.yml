@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    with:
-      token: ${{ secrets.CR_TOKEN }}
+      with:
+        token: ${{ secrets.CR_TOKEN }}
 
     - name: 01-test-schedule
       run: touch $(date +%F-%H%M%S)
