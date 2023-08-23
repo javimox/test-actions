@@ -6,7 +6,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    with:
+      token: ${{ secrets.CR_TOKEN }}
 
     - name: 01-test-schedule
       run: touch $(date +%F-%H%M%S)
@@ -14,8 +16,6 @@ jobs:
     - name: Create Pull Request
       id: cpr
       uses: moxbot/create-pull-request@v3
-      env:
-        CR_TOKEN: "${{ secrets.CR_TOKEN }}"
       with:
         token: ${{ secrets.CR_TOKEN }}
         commit-message: "[Release] update Charts with the latest stable App versions"
