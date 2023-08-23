@@ -1,0 +1,32 @@
+name: Latest Stable Versions
+
+on:
+  schedule:
+    - cron: '*/40 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: 01-test-schedule
+      run: |
+        touch $(date +%F-%H%M%S)
+
+    - name: Create Pull Request
+      id: cpr
+      uses: moxbot/create-pull-request@v3
+      with:
+        token: ${{ secrets.CR_TOKEN }}
+        commit-message: "[Release] update Charts with the latest stable App versions"
+        committer: moxbot <bot@mox.sh>
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        title: "[Release] test01 latest stable Apps versions"
+        body: |
+          New versions of the Apps have been released, and the Charts have been updated.
+          - PR auto-generated in the repo: [helm-charts][1]
+
+           [1]: https://github.com/javimox/helm-charts
+        branch: latest-stable-versions
+        labels: update-appVersion

@@ -1,0 +1,47 @@
+name: Update mox blog
+
+on:
+  release:
+    types: [published]
+
+env:
+  TAG: ${{ github.event.release.tag_name }}
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    steps:
+    # this helm repository
+    - name: Checkout helm repo
+      uses: actions/checkout@v3
+
+    # website
+    - name: Checkout website repo
+      uses: actions/checkout@v3
+      with:
+        repository: javimox/javimox.github.io
+        path: website
+
+    - name: Update blog entry
+      run: |
+        /bin/cat website/_drafts/helm/front-matter-${CHART}.md
+
+    - name: Create PR
+      id: cpr
+      uses: moxbot/create-pull-request@v3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        token: ${{ secrets.WWW_PAT }}
+        path: "website/"
+        commit-message: "[test] New chart viersion: ${{ env.TAG }}"
+        committer: moxbot <bot@mox.sh>
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        title: "[test] New chart version: ${{ env.TAG }}"
+        body: |
+          New Chart version has been released. Updating Charts section of the web.
+          - PR auto-generated in the repo: [mox.sh][1]
+
+           [1]: https://github.com/javimox/javimox.github.io
+        branch: update-helm-section
+        branch-suffix: timestamp
