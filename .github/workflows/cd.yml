@@ -1,8 +1,6 @@
 name: Latest Stable Versions
 
-on:
-  schedule:
-    - cron: '*/5 * * * *'
+on: push
 
 jobs:
   build:
