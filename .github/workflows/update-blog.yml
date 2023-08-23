@@ -30,9 +30,9 @@ jobs:
       id: cpr
       uses: moxbot/create-pull-request@v3
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_ACCESS }}
       with:
-        token: ${{ secrets.WWW_PAT }}
+        token: ${{ secrets.PAT_ACCESS }}
         path: "website/"
         commit-message: "[test] New chart viersion: ${{ env.TAG }}"
         committer: moxbot <bot@mox.sh>
