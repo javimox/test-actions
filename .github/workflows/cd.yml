@@ -7,8 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.CR_TOKEN }}
+
+    - name: Fetch history and commit message
+      run: |
+        git fetch --prune --unshallow
+
+    - name: Configure Git
+      run: |
+        git config user.name "moxbot"
+        git config user.email "bot@mox.sh"
 
     - name: 01-test-schedule
       run: touch $(date +%F-%H%M%S)
